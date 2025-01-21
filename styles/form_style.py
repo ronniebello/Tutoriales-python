@@ -1,0 +1,15 @@
+# Define colors for the form
+PRIMARY_COLOR = "#3498db"
+SECONDARY_COLOR = "#2ecc71"
+BACKGROUND_COLOR = "#ffffff"
+BACKGROUND_COLOR_2 = "#f7f8fa"
+TEXT_COLOR = "#2c3e50"
+ERROR_COLOR = "#e74c3c"
+SUCCESS_COLOR = "#27ae60"
+
+
+# Define color de los botones
+BUTTON_REGISTRA_COLOR = "#51aded"
+BUTTON_MODIFICAR_COLOR = "#536270"
+BUTTON_ELIMINA_COLOR = "#ed5153"
+BUTTON_LIMPIAR_COLOR = "#e39531"
