@@ -15,28 +15,28 @@ class FormularioRegistroDesing(tk.Tk):
 
     def config_window(self):
         self.title("Registro de productos")
-        w, h = 800, 500
+        w, h = 1600, 600
         util_ventana.centrar_ventana(self, w, h)
         self.config(bg=form_style.BACKGROUND_COLOR)
 
     def crear_paneles(self):
         self.marco_titulo = tk.Frame(
-            self, bg="red", height=40
+            self, bg=form_style.BACKGROUND_COLOR_2, height=40
         )
         self.marco_titulo.pack(side=tk.TOP, fill="both")
 
         self.marco_registro = tk.Frame(
-            self, bg="blue", height=50
+            self, bg=form_style.BACKGROUND_COLOR, height=50
         )
         self.marco_registro.pack(side=tk.TOP, fill="both", pady=10)
 
         self.marco_acciones = tk.Frame(
-            self, bg="green", height=50
+            self, bg=form_style.BACKGROUND_COLOR, height=50
         )
         self.marco_acciones.pack(side=tk.TOP, fill="both")
 
         self.marco_productos = tk.Frame(
-            self, bg="black"
+            self, bg=form_style.BACKGROUND_COLOR
         )
         self.marco_productos.pack(side=tk.TOP, fill="both",
                                   padx=30, pady=15, expand=True)
@@ -45,7 +45,7 @@ class FormularioRegistroDesing(tk.Tk):
         # titulo
         titulo = tk.Label(
             self.marco_titulo,
-            text="Registro de productos",
+            text="Registro Compra de productos",
             font=("Roboto", 20),
             fg="#485159",
             bg=form_style.BACKGROUND_COLOR_2,
@@ -73,6 +73,24 @@ class FormularioRegistroDesing(tk.Tk):
         )
         self.campo_id.pack(side="left", padx=15, pady=10)
 
+        # etiqueta_cliente
+        etiqueta_cliente = tk.Label(
+            self.marco_registro,
+            text="Cliente:",
+            font=("Times", 14),
+            fg=form_style.TEXT_COLOR,
+            bg=form_style.BACKGROUND_COLOR,
+            width=10
+        )
+        etiqueta_cliente.pack(side="left", padx=15, pady=10)
+        
+        # campo_cliente
+        self.campo_cliente = tk.Entry(
+            self.marco_registro,
+            font=("Times", 14),
+        )
+        self.campo_cliente.pack(side="left", padx=15, pady=10)
+        
         # etiqueta_nombre
         etiqueta_nombre = tk.Label(
             self.marco_registro,
@@ -108,6 +126,27 @@ class FormularioRegistroDesing(tk.Tk):
             font=("Times", 14),
         )
         self.campo_precio.pack(side="left", padx=15, pady=10)
+        
+        
+        # etiqueta_Total
+        etiqueta_total = tk.Label(
+            self.marco_registro,
+            text="Total Deuda:",
+            font=("Times", 14),
+            fg=form_style.TEXT_COLOR,
+            bg=form_style.BACKGROUND_COLOR,
+            width=10
+        )
+        etiqueta_total.pack(side="left", padx=15, pady=10)
+
+        # campo_total
+        self.campo_total = tk.Entry(
+            self.marco_registro,
+            font=("Times", 14),
+        )
+        self.campo_total.pack(side="left", padx=15, pady=10)
+        
+            
 
         # boton_registro
         self.btn_registro = tk.Button(
@@ -183,16 +222,20 @@ class FormularioRegistroDesing(tk.Tk):
         self.tree = ttk.Treeview(self.marco_productos,
                                  show="headings", yscrollcommand=tree_scroll.set)
 
-        self.tree["columns"] = ("Id", "Nombre", "Precio")
+        self.tree["columns"] = ("Id", "Cliente", "Nombre", "Precio", "Total")
         self.tree.column("#0")
         self.tree.column("Id")
+        self.tree.column("Cliente")
         self.tree.column("Nombre")
         self.tree.column("Precio")
+        self.tree.column("Total")
 
         self.tree.heading("#0", text="")
         self.tree.heading("Id", text="Id")
+        self.tree.heading("Cliente", text="Cliente")
         self.tree.heading("Nombre", text="Nombre")
         self.tree.heading("Precio", text="Precio")
+        self.tree.heading("Total", text="Total")
 
         self.tree.pack(expand=True, fill="both")
         self.tree.bind("<<TreeviewSelect>>", self.al_selecionar_treeview)
@@ -218,20 +261,12 @@ class FormularioRegistroDesing(tk.Tk):
     def registrar_producto(self):
         pass
 
-    def eliminar_producto(self):
-        pass
-
-    def obtener_config_btn_pack(self):
-        return {
-            "side": tk.RIGHT,
-            "padx": 10,
-            "pady": 10
-        }
-
     def limpiar_campos(self):
         try:
+            # self.campo_cliente.delete(0, "end")
             self.campo_nombre.delete(0, "end")
             self.campo_precio.delete(0, "end")
+            self.campo_id.config(state="normal")
             self.campo_id.delete(0, "end")
             self.campo_id.config(state="readonly")
             self.btn_registro.pack(**self.obtener_config_btn_pack())
@@ -239,3 +274,10 @@ class FormularioRegistroDesing(tk.Tk):
             self.btn_modificar.pack_forget()
         except Exception as e:
             messagebox.showerror("Error", f"Error en la limpieza: {e}")
+
+    def obtener_config_btn_pack(self):
+        return {
+            "side": tk.RIGHT,
+            "padx": 10,
+            "pady": 10
+        }

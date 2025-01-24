@@ -14,8 +14,9 @@ class ServicioProducto():
             "sqlite:///db/tienda.db", echo=True, future=True)
 
     # Metodo para registrar un producto -------------------------
-    def register(self, nombre, precio):
+    def register(self, id_cliente, nombre, precio):
         product = ProductoModel()
+        product.id_cliente = id_cliente
         product.nombre = nombre
         product.precio = precio
 
@@ -24,7 +25,7 @@ class ServicioProducto():
             session.commit()
 
     # Metodo para modificar un producto -------------------------
-    def modificar(self, nombre, precio, producto_id):
+    def modificar(self, id_cliente, nombre, precio, producto_id):
         try:
             # Buscamos el producto con el ID proporcionado
             with Session(self.engine) as session:
@@ -32,17 +33,18 @@ class ServicioProducto():
                     ProductoModel.id == producto_id).one()
 
                 # Modificamos los valores del producto encontrado
+                # id_cliente =
                 product.nombre = nombre
                 product.precio = precio
 
                 # Grabamos los coambios en la base de datos
                 session.commit()
-                print(f"El productocon el ID {
-                      producto_id}. Fue cambiado exitosamente")
+                print(
+                    f"El productocon el ID {producto_id}. Fue cambiado exitosamente")
 
         except NoResultFound:
-            print(f"No se encontro ningun el productocon el ID {
-                  producto_id}. No se realizo ningun cambio")
+            print(
+                f"No se encontro ningun el productocon el ID {producto_id}. No se realizo ningun cambio")
             return False
 
         except Exception as e:
@@ -53,29 +55,29 @@ class ServicioProducto():
     def obtener_productos(self) -> List[ProductoModel]:
         productos: ProductoModel = None
         with Session(self.engine) as session:
-            productos= session.query(ProductoModel).all()
+            productos = session.query(ProductoModel).all()
         return productos
 
     # Metodo para eliminar un producto -------------------------
     def eliminar(self, producto_id):
         # Buscamos el producto con el ID proporcionado
         with Session(self.engine) as session:
-            product = session.query(ProductoModel).filter_by(id = producto_id).first()
+            product = session.query(ProductoModel).filter_by(
+                id=producto_id).first()
             if product:
                 try:
                     # Eliminamos el producto encontrado
                     session.delete(product)
                     # Grabamos los coambios en la base de datos
                     session.commit()
-                    print(f"El productocon el ID {producto_id}. Fue eliminado exitosamente")
-                
+                    print(
+                        f"El productocon el ID {producto_id}. Fue eliminado exitosamente")
+
                 except IntegrityError as e:
                     session.rollback()
-                    print(f"Error al eliminar el producto con ID {producto_id}: Error: {e}")
+                    print(
+                        f"Error al eliminar el producto con ID {producto_id}: Error: {e}")
             else:
-                print(f"No se encontro ningun el productocon el ID {producto_id}. No se elimino ningun producto")
-                return False        
-
-                
-
-        
+                print(
+                    f"No se encontro ningun el productocon el ID {producto_id}. No se elimino ningun producto")
+                return False

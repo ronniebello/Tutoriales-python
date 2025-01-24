@@ -25,9 +25,10 @@ class FormularioRegistro(FormularioRegistroDesing):
 
         try:
             self.servicio_producto.register(nombre, precio)
-            messagebox.showerror(
+            messagebox.showinfo(
                 "Éxito", "El producto registrado exitosamente.")
             self.actualizar_lista()
+            self.limpiar_campos()
 
         except Exception as e:
             messagebox.showerror(
@@ -68,6 +69,15 @@ class FormularioRegistro(FormularioRegistroDesing):
             self.actualizar_lista()
 
         except IndexError as e:
-            messagebox.showerror("Error", f"Porfavor selecione una fila: {e}")
+            messagebox.showerror("Error", f"Por favor selecione una fila: {e}")
 
-# Video 1.04:45 
+    def eliminar_producto(self):
+        try:
+            id = self.tree.item(self.tree.selection())["values"][0]
+            self.servicio_producto.eliminar(id)
+            self.limpiar_campos()
+            self.actualizar_lista()
+        except IndexError as e:
+            messagebox.showerror(
+                "error", f"Por favor selecione una fila: {e}")
+
